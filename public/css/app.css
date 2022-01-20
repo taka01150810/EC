@@ -717,6 +717,9 @@ select {
 .w-48 {
   width: 12rem;
 }
+.w-1\/4 {
+  width: 25%;
+}
 .w-8 {
   width: 2rem;
 }
@@ -734,6 +737,9 @@ select {
 }
 .max-w-7xl {
   max-width: 80rem;
+}
+.max-w-xl {
+  max-width: 36rem;
 }
 .flex-1 {
   flex: 1 1 0%;
@@ -832,6 +838,9 @@ select {
 .border-b-2 {
   border-bottom-width: 2px;
 }
+.border-r {
+  border-right-width: 1px;
+}
 .border-gray-300 {
   --tw-border-opacity: 1;
   border-color: rgb(209 213 219 / var(--tw-border-opacity));
@@ -851,6 +860,10 @@ select {
   --tw-border-opacity: 1;
   border-color: rgb(243 244 246 / var(--tw-border-opacity));
 }
+.border-gray-400 {
+  --tw-border-opacity: 1;
+  border-color: rgb(156 163 175 / var(--tw-border-opacity));
+}
 .bg-white {
   --tw-bg-opacity: 1;
   background-color: rgb(255 255 255 / var(--tw-bg-opacity));
@@ -858,6 +871,10 @@ select {
 .bg-gray-100 {
   --tw-bg-opacity: 1;
   background-color: rgb(243 244 246 / var(--tw-bg-opacity));
+}
+.bg-indigo-400 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(129 140 248 / var(--tw-bg-opacity));
 }
 .bg-gray-800 {
   --tw-bg-opacity: 1;
@@ -870,11 +887,11 @@ select {
 .fill-current {
   fill: currentColor;
 }
-.p-6 {
-  padding: 1.5rem;
-}
 .p-2 {
   padding: 0.5rem;
+}
+.p-6 {
+  padding: 1.5rem;
 }
 .px-4 {
   padding-left: 1rem;
@@ -986,6 +1003,9 @@ select {
 .tracking-widest {
   letter-spacing: 0.1em;
 }
+.tracking-wider {
+  letter-spacing: 0.05em;
+}
 .text-gray-500 {
   --tw-text-opacity: 1;
   color: rgb(107 114 128 / var(--tw-text-opacity));
@@ -1002,6 +1022,10 @@ select {
   --tw-text-opacity: 1;
   color: rgb(79 70 229 / var(--tw-text-opacity));
 }
+.text-gray-900 {
+  --tw-text-opacity: 1;
+  color: rgb(17 24 39 / var(--tw-text-opacity));
+}
 .text-gray-200 {
   --tw-text-opacity: 1;
   color: rgb(229 231 235 / var(--tw-text-opacity));
@@ -1013,10 +1037,6 @@ select {
 .text-gray-400 {
   --tw-text-opacity: 1;
   color: rgb(156 163 175 / var(--tw-text-opacity));
-}
-.text-gray-900 {
-  --tw-text-opacity: 1;
-  color: rgb(17 24 39 / var(--tw-text-opacity));
 }
 .text-red-600 {
   --tw-text-opacity: 1;
