@@ -9,7 +9,10 @@ class LifeCycleTestController extends Controller
     public function showServiceProvider(){
         $encrypt = app()->make('encrypter');
         $password = $encrypt->encrypt('password');//encryptで暗号化
-        dd($password, $encrypt->decrypt($password));//decryptで元に戻る
+
+        $sample = app()->make('serviceProvider');
+
+        dd($sample, $password, $encrypt->decrypt($password));//decryptで元に戻る
     }
 
     public function showServiceContainer(){
