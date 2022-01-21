@@ -10,7 +10,7 @@
 | the IoC container for the system binding all of the various parts.
 |
 */
-
+//2.サービスコンテナの設定
 $app = new Illuminate\Foundation\Application(
     $_ENV['APP_BASE_PATH'] ?? dirname(__DIR__)
 );
@@ -25,8 +25,8 @@ $app = new Illuminate\Foundation\Application(
 | incoming requests to this application from both the web and CLI.
 |
 */
-
-$app->singleton(
+//3. Kernelをサービスコンテナに登録
+$app->singleton(// singletonは一度だけインタンス化するというメソッド
     Illuminate\Contracts\Http\Kernel::class,
     App\Http\Kernel::class
 );

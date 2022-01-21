@@ -3,7 +3,7 @@
 namespace App\Http;
 
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
-
+//3.HTTPカーネルは全てのリクエストがアプリケーションによって処理される前に処理する必要があるHTTPミドルウェアのリストを定義する
 class Kernel extends HttpKernel
 {
     /**
