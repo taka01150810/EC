@@ -18,6 +18,8 @@ class RouteServiceProvider extends ServiceProvider
      * @var string
      */
     public const HOME = '/dashboard';
+    public const OWNER_HOME = '/owner/dashboard';
+    public const ADMIN_HOME = '/admin/dashboard';
 
     /**
      * The controller namespace for the application.
@@ -38,12 +40,28 @@ class RouteServiceProvider extends ServiceProvider
         $this->configureRateLimiting();
 
         $this->routes(function () {
+            //グループ内の各ルートに特定のURIをプレフィックスとしてつけることができる。
+            //ミドルウェアをグループ内全てのルートに割り当てるには、グループを定義する前にmiddlewareメソッドを使用
             Route::prefix('api')
                 ->middleware('api')
                 ->namespace($this->namespace)
                 ->group(base_path('routes/api.php'));
 
-            Route::middleware('web')
+            Route::prefix('/')
+            ->as('admin.')
+            ->middleware('web')
+            ->namespace($this->namespace)
+            ->group(base_path('routes/admin.php'));
+
+            Route::prefix('owner')
+            ->as('owner.')
+            ->middleware('web')
+            ->namespace($this->namespace)
+            ->group(base_path('routes/owner.php'));
+
+            Route::prefix('/')
+                ->as('user.')
+                ->middleware('web')
                 ->namespace($this->namespace)
                 ->group(base_path('routes/web.php'));
         });
