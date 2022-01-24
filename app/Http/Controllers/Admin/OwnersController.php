@@ -118,4 +118,14 @@ class OwnersController extends Controller
         return redirect()
         ->route('admin.owners.index');
     }
+
+    public function expiredOwnerIndex(){
+        $expiredOwners = Owner::onlyTrashed()->get();//ゴミ箱のみ表示 withTrashedだったらゴミ箱も含めて表示
+        return view('admin.expired-owners',compact('expiredOwners'));
+    }
+    
+    public function expiredOwnerDestroy($id){
+        Owner::onlyTrashed()->findOrFail($id)->forceDelete();//完全に削除
+        return redirect()->route('admin.expired-owners.index');
+    }
 }
