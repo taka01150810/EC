@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\Owner;//エロクアント
+use Illuminate\Support\Facades\DB;//クエリビルダ
 
 class OwnersController extends Controller
 {
@@ -21,7 +23,17 @@ class OwnersController extends Controller
      */
     public function index()
     {
-        
+        //エロクアント
+        $e_all = Owner::all();//返り値はEloquentCollection
+        //クエリビルダ
+        $q_get = DB::table('owners')->select('name')->get();//返り値はCollection
+        $q_first = DB::table('owners')->select('name')->first();//返り値はstdClass
+        //コレクション
+        $c_test = collect([//返り値はCollection
+            'name' => 'テスト'
+        ]);
+
+        dd($e_all, $q_get, $q_first, $c_test);
     }
 
     /**
