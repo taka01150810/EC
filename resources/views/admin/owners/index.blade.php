@@ -8,9 +8,9 @@
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 bg-white border-b border-gray-200">
+                <div class="md:p-6 bg-white border-b border-gray-200">
                     <section class="text-gray-600 body-font">
-                        <div class="container px-5 mx-auto">
+                        <div class="container md:px-5 mx-auto">
                             <div class="flex justify-end mb-4">
                                 <button onclick="location.href='{{ route('admin.owners.create')}}'" class="text-white bg-purple-500 border-0 py-2 px-8 focus:outline-none hover:bg-purple-600 rounded text-lg">新規登録する</button>
                             </div>
@@ -28,16 +28,16 @@
                               <tbody>
                                 @foreach($owners as $owner)
                                     <tr>
-                                        <td class="px-4 py-3">{{ $owner->name }}</td>
-                                        <td class="px-4 py-3">{{ $owner->email }}</td>
-                                        <td class="px-4 py-3">{{ $owner->created_at->diffForHumans() }}</td>
-                                        <td class="px-4 py-3">
+                                        <td class="md:px-4 py-3">{{ $owner->name }}</td>
+                                        <td class="md:px-4 py-3">{{ $owner->email }}</td>
+                                        <td class="md:px-4 py-3">{{ $owner->created_at->diffForHumans() }}</td>
+                                        <td class="md:px-4 py-3">
                                             <button onclick="location.href='{{ route('admin.owners.edit',['owner' => $owner->id ]); }}'" onclick="" class="text-white bg-purple-500 border-0 py-2 px-4 focus:outline-none hover:bg-purple-400 rounded">編集する</button>
                                         </td>
                                         <form method="post" id="delete_{{ $owner->id }}" action="{{ route('admin.owners.destroy',['owner' => $owner->id ]); }}">
                                             @csrf
                                             @method('delete')
-                                            <td class="px-4 py-3">
+                                            <td class="md:px-4 py-3">
                                                 <a href="#" data-id="{{ $owner->id }}" onclick="deletePost(this)" class="text-white bg-red-500 border-0 py-2 px-4 focus:outline-none hover:bg-red-400 rounded">削除する</a>
                                             </td>
                                         </form>

@@ -30,11 +30,8 @@ Route::get('/', function () {
 });
 
 Route::resource('owners', OwnersController::class)
-->middleware('auth:admin');
-
-Route::get('/dashboard', function () {
-    return view('admin.dashboard');
-})->middleware(['auth:admin'])->name('dashboard');
+->middleware('auth:admin')
+->except(['show']);//showは今回使わないので
 
 //期限切れオーナー
 Route::prefix('expired-owner')->middleware(['auth:admin'])
