@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Owner;//エロクアント
 use Illuminate\Support\Facades\DB;//クエリビルダ
+use Carbon\Carbon;
 
 class OwnersController extends Controller
 {
@@ -23,17 +24,25 @@ class OwnersController extends Controller
      */
     public function index()
     {
+        //カーボン
+        $date_now = Carbon::now();
+        $date_parse = Carbon::parse(now());
+        echo $date_now;//出力結果 現在の時間
+        echo $date_parse;//出力結果 現在の時間
         //エロクアント
         $e_all = Owner::all();//返り値はEloquentCollection
         //クエリビルダ
-        $q_get = DB::table('owners')->select('name')->get();//返り値はCollection
+        $q_get = DB::table('owners')->select('name','created_at')->get();//返り値はCollection
         $q_first = DB::table('owners')->select('name')->first();//返り値はstdClass
         //コレクション
         $c_test = collect([//返り値はCollection
             'name' => 'テスト'
         ]);
 
-        dd($e_all, $q_get, $q_first, $c_test);
+        // dd($e_all, $q_get, $q_first, $c_test);
+
+        return view('admin.owners.index',
+        compact('e_all', 'q_get'));
     }
 
     /**
