@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Owner;//エロクアント
 use Illuminate\Support\Facades\DB;//クエリビルダ
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Hash;
 
 class OwnersController extends Controller
 {
@@ -46,9 +47,21 @@ class OwnersController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request)//メソッドの引数に依存対象のクラスを渡すメソッド・インジェクション
     {
-        //
+        $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:owners'],
+            'password' => ['required', 'confirmed', 'min:8'],
+        ]);
+
+        Owner::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+        ]);
+
+        return redirect()->route('admin.owners.index');
     }
 
     /**
