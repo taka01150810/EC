@@ -25,7 +25,10 @@ class OwnersController extends Controller
      */
     public function index()
     {
-        $owners = Owner::select('id','name', 'email', 'created_at')->get();
+        $owners = Owner::select('id','name', 'email', 'created_at')
+        ->paginate(3);
+        // 元々ページネーションはvendorファイル内にあるが、composerのアップデートにより書き変わる可能性があるので
+        // php artisan vendor publish --tag=laravel-paginationによりvendorフォルダをコピーする
 
         return view('admin.owners.index',
         compact('owners'));
