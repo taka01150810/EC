@@ -18,6 +18,9 @@
                     <x-nav-link :href="route('owner.shops.index')" :active="request()->routeIs('owner.shops.index')">
                         店舗情報
                     </x-nav-link>
+                    <x-nav-link :href="route('owner.images.index')" :active="request()->routeIs('owner.shops.index')">
+                        画像情報
+                    </x-nav-link>
                 </div>
             </div>
 
@@ -67,6 +70,9 @@
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
             <x-responsive-nav-link :href="route('owner.shops.index')" :active="request()->routeIs('owner.dashboard')">
+                店舗情報
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('owner.images.index')" :active="request()->routeIs('owner.dashboard')">
                 店舗情報
             </x-responsive-nav-link>
         </div>

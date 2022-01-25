@@ -29,7 +29,7 @@
                             </div>
                             <div class="p-2 w-1/2 mx-auto">
                                 <div class="w-32">
-                                    <x-shop-thumbnail :filename="$shop->filename"></x-shop-thumbnail>
+                                    <x-thumbnail :filename="$shop->filename" type="shops"></x-shop-thumbnail>
                                 </div>
                             </div>
                             <div class="p-2 w-1/2 mx-auto">
