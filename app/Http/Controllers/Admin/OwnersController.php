@@ -26,7 +26,7 @@ class OwnersController extends Controller
     public function index()
     {
         $owners = Owner::select('id','name', 'email', 'created_at')
-        ->paginate(3);
+        ->paginate(10);
         // 元々ページネーションはvendorファイル内にあるが、composerのアップデートにより書き変わる可能性があるので
         // php artisan vendor publish --tag=laravel-paginationによりvendorフォルダをコピーする
 
@@ -64,7 +64,9 @@ class OwnersController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
-        return redirect()->route('admin.owners.index');
+        return redirect()
+        ->route('admin.owners.index')
+        ->with('message', 'オーナー登録を実施しました');
     }
 
     /**
@@ -106,7 +108,11 @@ class OwnersController extends Controller
         $owner->save();
 
         return redirect()
-        ->route('admin.owners.index');
+        ->route('admin.owners.index')
+        ->with([
+            'message' => 'オーナー情報を更新しました',
+            'status' => 'info',
+        ]);
     }
 
     /**
@@ -119,7 +125,11 @@ class OwnersController extends Controller
     {
         Owner::findOrFail($id)->delete();//ソフトデリート
         return redirect()
-        ->route('admin.owners.index');
+        ->route('admin.owners.index')
+        ->with([
+            'message' => 'オーナー情報を削除しました。',
+            'status' => 'alert',
+        ]);
     }
 
     public function expiredOwnerIndex(){
