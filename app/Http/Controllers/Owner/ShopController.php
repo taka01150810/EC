@@ -9,6 +9,7 @@ use App\Models\Shop;
 use Illuminate\Support\Facades\Storage;
 use InterventionImage;
 use App\Http\Requests\UploadImageRequest;
+use App\Services\ImageService;
 
 class ShopController extends Controller
 {
@@ -51,13 +52,8 @@ class ShopController extends Controller
         //リサイズしないパターン
         $imageFile = $request->image; //一時保存
         if(!is_null($imageFile) && $imageFile->isValid() ){
-            // Storage::putFile('public/shops', $imageFile);//putFileでファイル名を生成。サーバー側に保存。
-            $fileName = uniqid(rand().'_');//ランダムなファイル名にする
-            $extension = $imageFile->extension();//拡張子を取得
-            $fileNameToStore = $fileName. '.' . $extension;
-            $resizedImage = InterventionImage::make($imageFile)->resize(1920, 1080)->encode();
-
-            Storage::put('public/shops/' . $fileNameToStore, $resizedImage );
+            //写真のアップロード関連はApp\Services\ImageService; にあります。
+            $fileNameToStore = ImageService::upload($imageFile, 'shops');
         }
 
         return redirect()->route('owner.shops.index');
