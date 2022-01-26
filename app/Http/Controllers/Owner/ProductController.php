@@ -36,8 +36,21 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Owner::findOrFail(Auth::id())->shop->product;//ログインしているOwnerのshopのproductを取得
-        return view('owner.products.index', compact('products'));
+        // //ログインしているOwnerのshopのproductを取得
+        // $products = Owner::findOrFail(Auth::id())->shop->product;
+        // 上記のN + 1問題の対策 -> SQL文を一つにまとめる(リレーション先のリレーション情報を取得)
+        // withメソッド、リレーションをドットでつなぐ
+        $ownerInfo = Owner::with('shop.product.imageFirst')
+        ->where('id', Auth::id())->get();
+
+        // foreach($ownerInfo as $owner)
+        // dd($owner->shop->product);//出力結果 Productが一つずつ
+        // foreach($owner->shop->product as $product)
+        // {
+        //     dd($product->imageFirst->filename);//出力結果 sample01.jpg
+        // }
+
+        return view('owner.products.index', compact('ownerInfo'));
     }
 
     /**
