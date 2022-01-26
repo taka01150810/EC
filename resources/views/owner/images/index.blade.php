@@ -31,4 +31,12 @@
             </div>
         </div>
     </div>
+<script>
+    function deletePost(e){
+        'use strict';
+        if(confirm('本当に削除してもいいですか?')){
+            document.getElementById('delete_' + e.dataset.id).submit();
+        }
+    }
+</script>
 </x-app-layout>
