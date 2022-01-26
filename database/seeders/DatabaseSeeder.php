@@ -19,6 +19,7 @@ class DatabaseSeeder extends Seeder
             OwnerSeeder::class,
             ShopSeeder::class, //外部キー制約がある場合は事前に必要なデータ(Owner)を設定する
             ImageSeeder::class,
+            CategorySeeder::class,
         ]);
     }
 }
