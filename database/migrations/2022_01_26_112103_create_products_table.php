@@ -15,6 +15,11 @@ class CreateProductsTable extends Migration
     {
         Schema::create('products', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
+            $table->text('information');
+            $table->unsignedInteger('price');
+            $table->boolean('is_selling');
+            $table->integer('sort_order')->nullable();
             //親を削除するか, 親を削除したときに合わせて削除するか
             //shopが消えた時はproductも消えるので cascadeあり
             $table->foreignId('shop_id')
@@ -26,6 +31,15 @@ class CreateProductsTable extends Migration
             $table->foreignId('secondary_category_id')
             ->constrained();
             $table->foreignId('image1')
+            ->nullable()// null許可、
+            ->constrained('images');//image1はカラム名ではないのでテーブル名を指定
+            $table->foreignId('image2')
+            ->nullable()// null許可、
+            ->constrained('images');//image1はカラム名ではないのでテーブル名を指定
+            $table->foreignId('image3')
+            ->nullable()// null許可、
+            ->constrained('images');//image1はカラム名ではないのでテーブル名を指定
+            $table->foreignId('image4')
             ->nullable()// null許可、
             ->constrained('images');//image1はカラム名ではないのでテーブル名を指定
             $table->timestamps();
