@@ -233,7 +233,9 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         //Imageだとバッティングするので変更
         'InterventionImage' => Intervention\Image\Facades\Image::class,
-
+        //使用時は  \Constant::PRODUCT_LIST['add']; 
+        //         \Constant::PRODUCT_LIST['reduce'];
+        'Constant' => App\Constants\Common::class,
     ],
 
 ];
