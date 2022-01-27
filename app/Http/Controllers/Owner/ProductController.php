@@ -237,6 +237,15 @@ class ProductController extends Controller
      */
     public function destroy($id)
     {
-        //
+        //storageフォルダの中身を消す必要がある
+        $product = Product::findOrFail($id);
+
+        Product::findOrFail($id)->delete();//ソフトデリート
+        return redirect()
+        ->route('owner.products.index')
+        ->with([
+            'message' => '商品を削除しました。',
+            'status' => 'alert',
+        ]);
     }
 }
