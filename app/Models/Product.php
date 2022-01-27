@@ -9,9 +9,22 @@ use App\Models\SecondaryCategory;
 use App\Models\Image;
 use App\Models\Stock;
 
+use function PHPSTORM_META\map;
+
 class Product extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'shop_id',
+        'name',
+        'information',
+        'price',
+        'is_selling',
+        'sort_order',
+        'secondary_category_id',
+        'image1',
+    ];
 
     public function shop()
     {

@@ -19,7 +19,8 @@
                         <div class="w-1/4 p-2 mb:p-4">
                             <a href="{{ route('owner.products.edit', ['product'=> $product->id] )}}">
                             <div class="border rounded-md p-4">
-                                <x-thumbnail :filename="$product->imageFirst->filename" type="products"></x-thumbnail>
+                                {{-- Null合体演算子でnull判定 --}}
+                                <x-thumbnail filename="{{$product->imageFirst->filename ?? ''}}" type="products"></x-thumbnail>
                                 {{-- <div class="text-xl">{{ $product->title }}</div> --}}
                             </div>
                             </a>

@@ -11,6 +11,10 @@ use App\Models\SecondaryCategory;
 use App\Models\Owner;
 use App\Models\Shop;
 use App\Models\PrimaryCategory;
+use Throwable;
+use Illuminate\Support\Facades\DB;//クエリビルダ
+use Illuminate\Support\Facades\Log;
+use App\Models\Stock;
 
 class ProductController extends Controller
 {
@@ -83,7 +87,50 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required|string|max:50',
+            'information' => 'required|string|max:1000',
+            'price' => 'required|integer',
+            'sort_order' => 'nullable|integer',
+            'quantity' => 'required|integer',
+            'shop_id' => 'required|exists:shops,id',//exists -> 外部キーが存在するか
+            'category' => 'required|exists:secondary_categories,id',
+            'image1' => 'nullable|exists:images,id',
+            'is_selling' => 'required',
+        ]);
+
+        try{
+            DB::transaction(function()use($request){//無名関数内で親の変数を使うにはuseが必要
+                $product = Product::create([
+                    'name' => $request->name,
+                    'information' => $request->information,
+                    'price' => $request->price,
+                    'sort_order' => $request->sort_order,
+                    'shop_id' => $request->shop_id,
+                    'secondary_category_id' => $request->category,
+                    'image1' => $request->image1,
+                    'is_selling' => $request->is_selling,
+                ]);
+
+                //外部キー向けのidを取得。
+                //Stock::createで作成する場合はモデル側にfillableも必要
+                Stock::create([
+                    'product_id' => $product->id,
+                    'type' => 1,
+                    'quantity' => $request->quantity,
+                ]);
+            }, 2);//NGの時に2回試す
+        }catch(Throwable $e){//Throwableで例外取得。例外情報を$eに入れる
+            Log::error($e);//ログに$eを保存する(ログはstorage/logs)
+            throw $e;//表示する
+        }
+
+        return redirect()
+        ->route('owner.products.index')
+        ->with([
+            'message' =>'商品登録を実施しました',
+            'status' => 'info',
+        ]);
     }
 
     /**
