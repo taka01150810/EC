@@ -152,7 +152,22 @@ class ProductController extends Controller
      */
     public function edit($id)
     {
-        //
+        $product = Product::findOrFail($id);//一つの商品
+        $quantity = Stock::where('product_id', $product->id)
+        ->sum('quantity');//在庫情報
+
+        $shops = Shop::where('owner_id', Auth::id())
+        ->select('id', 'name')->get();
+
+        $images = Image::where('owner_id', Auth::id())
+        ->select('id', 'title','filename')
+        ->orderBy('updated_at', 'desc')->get();
+
+        // n+1問題
+        $categories = PrimaryCategory::with('secondary')->get();
+
+        return view('owner.products.edit', 
+        compact('product', 'quantity', 'shops', 'images', 'categories'));
     }
 
     /**
