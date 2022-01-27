@@ -26,7 +26,7 @@ use App\Http\Controllers\Admin\OwnersController;
 */
 
 Route::get('/', function () {
-    return view('admin.welcome');
+    return view('admin.auth.login');
 });
 
 Route::resource('owners', OwnersController::class)

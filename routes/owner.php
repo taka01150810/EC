@@ -28,7 +28,7 @@ use App\Http\Controllers\Owner\ProductController;
 */
 
 Route::get('/', function () {
-    return view('owner.welcome');
+    return view('owner.auth.login');
 });
 
 Route::prefix('shops')->middleware(['auth:owners'])
@@ -47,12 +47,12 @@ Route::resource('products', ProductController::class)
 ->except(['show']);//showは今回使わないので
 
 //auth.phpからコピー
-Route::get('/register', [RegisteredUserController::class, 'create'])
-                ->middleware('guest')
-                ->name('register');
+// Route::get('/register', [RegisteredUserController::class, 'create'])
+//                 ->middleware('guest')
+//                 ->name('register');
 
-Route::post('/register', [RegisteredUserController::class, 'store'])
-                ->middleware('guest');
+// Route::post('/register', [RegisteredUserController::class, 'store'])
+//                 ->middleware('guest');
 
 Route::get('/login', [AuthenticatedSessionController::class, 'create'])
                 ->middleware('guest')
