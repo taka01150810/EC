@@ -10,8 +10,10 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 bg-white border-b border-gray-200">
                     <x-auth-validation-errors class="mb-4" :errors="$errors" />
+                    <x-flash-message status="session('status')"></x-flash-message>
                     <form method="post" action="{{ route('owner.products.update', ['product'=> $product->id]) }}" >
                         @csrf
+                        @method('put')
                         <div class="-m-2">
                             <div class="p-2 w-1/2 mx-auto">
                                 <div class="relative">
@@ -33,14 +35,14 @@
                             </div>
                             <div class="p-2 w-1/2 mx-auto">
                                 <div class="relative">
-                                  <label for="sort_order" class="leading-7 text-sm text-gray-600">表示順 *必須</label>
+                                  <label for="sort_order" class="leading-7 text-sm text-gray-600">表示順</label>
                                   <input type="number" id="sort_order" name="sort_order" value="{{ $product->sort_order }}" class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-purple-500 focus:bg-white focus:ring-2 focus:ring-purple-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
                                 </div>
                             </div>
                             <div class="p-2 w-1/2 mx-auto">
                                 <div class="relative">
                                   <label for="current_quantity" class="leading-7 text-sm text-gray-600">現在の在庫</label>
-                                  <input type="hidden" id="current_quantity" name="current_quantity" value="{{ $product->quantity }}" class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-purple-500 focus:bg-white focus:ring-2 focus:ring-purple-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+                                  <input type="hidden" id="current_quantity" name="current_quantity" value="{{ $quantity }}">
                                   <div class="w-full bg-gray-100 bg-opacity-50 rounded">{{ $quantity }}</div>
                                 </div>
                             </div>
@@ -53,7 +55,7 @@
                             <div class="p-2 w-1/2 mx-auto">
                                 <div class="relative">
                                     <label for="quantity" class="leading-7 text-sm text-gray-600">数量 *必須</label>
-                                    <input name="quantity" id="quantity" class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-purple-500 focus:bg-white focus:ring-2 focus:ring-purple-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+                                    <input type="number"name="quantity" id="quantity" value="0" class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-purple-500 focus:bg-white focus:ring-2 focus:ring-purple-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
                                     <span class="text-sm">0〜99の範囲で入力してください</span>
                                 </div>
                             </div>

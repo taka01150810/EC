@@ -15,6 +15,7 @@ use Throwable;
 use Illuminate\Support\Facades\DB;//クエリビルダ
 use Illuminate\Support\Facades\Log;
 use App\Models\Stock;
+use App\Http\Requests\ProductRequest;
 
 class ProductController extends Controller
 {
@@ -85,20 +86,8 @@ class ProductController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ProductRequest $request)
     {
-        $request->validate([
-            'name' => 'required|string|max:50',
-            'information' => 'required|string|max:1000',
-            'price' => 'required|integer',
-            'sort_order' => 'nullable|integer',
-            'quantity' => 'required|integer',
-            'shop_id' => 'required|exists:shops,id',//exists -> 外部キーが存在するか
-            'category' => 'required|exists:secondary_categories,id',
-            'image1' => 'nullable|exists:images,id',
-            'is_selling' => 'required',
-        ]);
-
         try{
             DB::transaction(function()use($request){//無名関数内で親の変数を使うにはuseが必要
                 $product = Product::create([
@@ -177,9 +166,67 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(ProductRequest $request, $id)
     {
-        //
+        $request->validate([
+            'current_quantity' => 'nullable|integer',
+        ]);
+
+        // 画面表示後に在庫数が変わっている可能性がある
+        // (Edit～updateの間でユーザーが購入した場合など)
+        // 在庫が同じか確認し違っていたらeditに戻す (楽観的ロックに近い)
+        $product = Product::findOrFail($id);
+        $quantity = Stock::where('product_id', $product->id)
+        ->sum('quantity');//在庫情報
+
+        if($request->current_quantity !== $quantity){
+            $id = $request->route()->parameter('product');
+            return redirect()
+            ->route('owner.products.edit', ['product' => $id])
+            ->with([
+                'message' =>'在庫数が変更されています。再度確認してください。',
+                'status' => 'alert',
+            ]);;
+        } else {
+        //ProductとStock同時更新するためトランザクションをかけておく
+        try{
+            DB::transaction(function()use($request, $product){//無名関数内で親の変数を使うにはuseが必要
+                $product->name = $request->name;
+                $product->information = $request->information;
+                $product->price = $request->price;
+                $product->sort_order = $request->sort_order;
+                $product->shop_id = $request->shop_id;
+                $product->secondary_category_id = $request->category;
+                $product->image1 = $request->image1;
+                $product->is_selling =$request->is_selling;
+                $product->save();
+
+                if($request->type === '1'){
+                    $newQuantity = $request->quantity;
+                }
+                if($request->type === '2'){
+                    $newQuantity = $request->quantity * -1;
+                }
+                //外部キー向けのidを取得。
+                //Stock::createで作成する場合はモデル側にfillableも必要
+                Stock::create([
+                    'product_id' => $product->id,
+                    'type' => $request->type,
+                    'quantity' => $newQuantity,
+                ]);
+            }, 2);//NGの時に2回試す
+        }catch(Throwable $e){//Throwableで例外取得。例外情報を$eに入れる
+            Log::error($e);//ログに$eを保存する(ログはstorage/logs)
+            throw $e;//表示する
+        }
+
+        return redirect()
+        ->route('owner.products.index')
+        ->with([
+            'message' =>'商品情報を更新しました',
+            'status' => 'info',
+        ]);
+    }
     }
 
     /**
