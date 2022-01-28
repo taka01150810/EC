@@ -9,6 +9,11 @@ use Illuminate\Support\Facades\DB;
 
 class ItemController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth:users');
+    }
+    
     public function index()
     {
         // Stockの合計をグループ化->数量が1以上 
@@ -40,4 +45,11 @@ class ItemController extends Controller
 
         return view('user.index',compact('products')); 
     }
+
+    public function show($id)
+    {
+        $product = Product::findOrFail($id);
+        return view('user.show', compact('product')); 
+    }
+
 }
