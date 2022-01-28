@@ -33,15 +33,6 @@ class CreateProductsTable extends Migration
             $table->foreignId('image1')
             ->nullable()// null許可、
             ->constrained('images');//image1はカラム名ではないのでテーブル名を指定
-            $table->foreignId('image2')
-            ->nullable()// null許可、
-            ->constrained('images');//image1はカラム名ではないのでテーブル名を指定
-            $table->foreignId('image3')
-            ->nullable()// null許可、
-            ->constrained('images');//image1はカラム名ではないのでテーブル名を指定
-            $table->foreignId('image4')
-            ->nullable()// null許可、
-            ->constrained('images');//image1はカラム名ではないのでテーブル名を指定
             $table->timestamps();
         });
     }
