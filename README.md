@@ -13,3 +13,7 @@ stprageフォルダ内にリンク後、
 storage/app/public/productsフォルダ内に
 保存されると表示されます。
 (productフォルダがない場合は作成してください)
+
+ショップの画像も表示する場合は、
+storage/app/public/shopフォルダを作成し
+画像を保存してください。
