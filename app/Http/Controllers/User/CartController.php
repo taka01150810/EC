@@ -82,8 +82,6 @@ class CartController extends Controller
             ]);
         }
 
-        dd('test');
-
         \Stripe\Stripe::setApiKey(env('STRIPE_SECRET_KEY'));
 
         $session = \Stripe\Checkout\Session::create([
@@ -91,11 +89,11 @@ class CartController extends Controller
             'line_items' => [$lineItems],
             'mode' => 'payment',
             'success_url' => route('user.items.index'),//支払いが成功したら
-            'cancel_url' => route('cart.cart.index'),//支払いがキャンセルになったら
+            'cancel_url' => route('user.cart.index'),//支払いがキャンセルになったら
         ]);
 
         $publicKey = env('STRIPE_PUBLIC_KEY');
 
-        return view('user.checkout',compact('session','publicKey'));
+        return view('user.checkout', compact('session','publicKey'));
     }
 }
